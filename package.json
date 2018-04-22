@@ -1,0 +1,23 @@
+{
+  "name": "expressjs-router-worker",
+  "version": "0.0.1",
+  "description": "",
+  "main": "RouterWorker.js",
+  "private": false,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aleixo/expressjs-router-worker.git"
+  },
+  "author": "Diogo Aleixo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aleixo/expressjs-router-worker/issues"
+  },
+  "homepage": "https://github.com/aleixo/expressjs-router-worker#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
