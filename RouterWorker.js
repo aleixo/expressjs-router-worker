@@ -7,6 +7,21 @@ const { Router } = require('express');
  * @class RouterWorker
  */
 module.exports = class RouterWorker {
+
+    /**
+    * One getter with the verbs for convinience
+    * 
+    * @static
+    */
+    static get VERBS() {
+        return {
+            get : 'get',
+            post: 'post',
+            put: 'put',
+            patch: 'patch',              
+        }
+    }
+
     /**
      * Creates an instance of RouterWorker.
      *
@@ -14,6 +29,7 @@ module.exports = class RouterWorker {
      */
     constructor () {
         this.router = Router();
+        this.customResponse = undefined;
     }
 
     /**
@@ -47,20 +63,30 @@ module.exports = class RouterWorker {
     }
     
     /**
+     * This function allows the dev to set custom response for the router instance.
+     * 
+     * @param {Function} - The function that will handle the router response and custom it.          
+     */
+    set routerCustomResponse(response) {
+        this.customResponse = response;
+    }
+
+    /**
      * Register one new route on the router and setts ist callback.
      *
      * @param {Object} config - The object with the configurations for the endpoint.
      * @memberof RouterWorker
      */
-    registerRoute (config) {
-        console.log(`[REGISTER ROUTE] ${config.method} -> ${this.routerEntry}${config.path}`);
-        this.router[config.method](config.path, (req, res, next) => {
+    registerRoute (config) {        
+        console.log(`[REGISTER ROUTE] ${config.method} -> ${this.routerEntry}${config.path || ''}`);
+        this.router[config.method](config.path || '', (req, res, next) => {
+
             let mergedRequest = Object.assign(req.params, req.body);
             mergedRequest = Object.assign(mergedRequest, req.query);
             mergedRequest = Object.assign(mergedRequest, req.files);
             
-            this.workerController[config.controllerAction](mergedRequest)
-                .then(result => res.json(result))
+            config.controllerAction.call(this.workerController, mergedRequest)
+                .then( result => res.json(this.customResponse ? this.customResponse(result) : result) )
                 .catch(next);
         });            
     }

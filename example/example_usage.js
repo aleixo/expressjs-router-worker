@@ -19,6 +19,12 @@ module.exports = class Router extends Worker {
         this.controller = new Controller();
         //Set the entry point to be used latter on app.js
         this.entry = '/router';
+        //Set custom response on router
+        this.routerCustomResponse = (response) => {
+            return [
+                response
+            ]
+        }
         //Build the router
         this.build();
     }
