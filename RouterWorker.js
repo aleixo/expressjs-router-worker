@@ -18,7 +18,8 @@ module.exports = class RouterWorker {
             get : 'get',
             post: 'post',
             put: 'put',
-            patch: 'patch',              
+            patch: 'patch',       
+            delete: 'delete'       
         }
     }
 

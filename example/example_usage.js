@@ -34,12 +34,23 @@ module.exports = class Router extends Worker {
      *
      * @memberof Router
      */
-    build () {
-        //Self explainatory right ?
-        this.registerRoute({
-            path: '/',
-            method: 'get',
-            controllerAction: this.controller.getAllActivities,
+    build () {             
+        //Notice that first two routes do not have path. That is because they will be on router 
+        //route pass, so you can omit it
+        this.registerRoute({                        
+            method: Worker.VERBS.get,
+            controllerAction: this.workerController.getNextNumber,
         });    
-    }
+
+        this.registerRoute({            
+            method: Worker.VERBS.post,
+            controllerAction: this.workerController.insertNumber,
+        });    
+        
+        this.registerRoute({
+            path: '/probability',
+            method: Worker.VERBS.get,
+            controllerAction: this.workerController.getProbability,
+        });    
+    }       
 };
